@@ -34,20 +34,13 @@ class DemoWindow < Gosu::Window
       y2 = grid_y*@grid_size
       draw_line(x1, y1, Gosu::Color::BLACK, x2, y2, Gosu::Color::BLACK, ZOrder::TOP, mode=:default)  # black vertical line
     end
-    for grid_x in (1..)
-      for grid_y in (1..)
-        img = Gosu::Image.new(Circle.new(50, 10, 100, 200), false)
-        img.draw 200, 200, ZOrder::TOP
-    #draw_line(200, 200, Gosu::Color::BLACK, 350, 350, Gosu::Color::BLACK, ZOrder::TOP, mode=:default)  # black diagonal line
-    # draw_rect works a bit differently:
-    Gosu.draw_rect(300, 200, 100, 50, Gosu::Color::BLACK, ZOrder::TOP, mode=:default)  # black rectangle
-    # Circles are also different - done with a separate gem.
-    # first create the circle as a Gosu image then draw it where you want it:
-    # the parameters are: radius, red, green, blue
-    img = Gosu::Image.new(Circle.new(50, 10, 100, 200), false)
-    img.draw 200, 200, ZOrder::TOP
-    img = Gosu::Image.new(Circle.new(100, 10, 100, 200), false)
-    img.draw 200, 200, ZOrder::TOP
+    for grid_x in (0..(@width/@grid_size)-1)
+      for grid_y in (0..(@height/@grid_size)-1)
+        img = Gosu::Image.new(Circle.new(20, rand(100..200), rand(100..200), rand(100..200)), false)
+        img.draw grid_x*@grid_size, grid_y*@grid_size, ZOrder::TOP
+        draw_triangle(grid_x*@grid_size+(@grid_size/3), (grid_y*@grid_size)+((@grid_size*2)/3), Gosu::Color.argb(255, rand(100..200), rand(100..200), rand(100..200)), (grid_x*@grid_size)+((@grid_size*2)/3), (grid_y*@grid_size)+((@grid_size*2)/3), Gosu::Color.argb(255, rand(100..200), rand(100..200), rand(100..200)), (grid_x*@grid_size)+(@grid_size/2),(grid_y*@grid_size)+(@grid_size/3), Gosu::Color.argb(255, rand(100..200), rand(100..200), rand(100..200)), ZOrder::MIDDLE, mode=:default)  # triangle
+      end
+    end
   end
 end
 
