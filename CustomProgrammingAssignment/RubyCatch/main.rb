@@ -13,6 +13,7 @@ class GameWindow < Gosu::Window
     @catcher = Catcher.new
     $circle_array = []
     @time_wait = 0.35 #seconds between new circles
+    @time_wait = 0.1 #seconds between new circles
     @time_old = Time.new
     $combo = 0
     $notes = { "1" => "A", "2" => "B", "3" => "Bb", "4" => "C#", "5" => "C", "6" => "D", "7" => "E", "8" => "Eb", "9" => "F#", "10" => "F", "11" => "G#", "12" => "G" }
