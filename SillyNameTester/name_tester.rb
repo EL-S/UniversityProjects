@@ -8,26 +8,27 @@ require './input_functions'
 
 
 def print_silly_name name
+    print "#{name.capitalize} is a "
+    i = 0
+    while i < 60
+        print "silly "
+        i += 1
+    end
+    print 'name!'
+end
+
+
+def main
+    name = read_string('Enter your name: ').downcase
     tutors_name = 'arafat'  # Arafat Hossain
     my_name = 'jordan'
 
     if name == tutors_name or name == my_name
         puts "#{name.capitalize} is an awesome name!"
     else
-        print "#{name.capitalize} is a "
-        i = 0
-        while i < 60
-            print "silly "
-            i += 1
-        end
-        print 'name!'
+        print_silly_name name
     end
-end
-
-
-def main
-    name = read_string('Enter your name: ').downcase
-    print_silly_name name
+    
 end
 
 
