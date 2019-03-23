@@ -6,6 +6,8 @@ require './circle'
 module ZOrder
   BACKGROUND, MIDDLE, TOP = *0..2
 end
+# created a function for selection of areas
+# add a drag feature
 
 class DemoWindow < Gosu::Window
   def initialize
