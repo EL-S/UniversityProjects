@@ -12,7 +12,6 @@ class GameWindow < Gosu::Window
     @background_image = Gosu::Image.new("media/backgrounds/bg"+bg_num+".jpg", :tileable => true)
     @catcher = Catcher.new
     $circle_array = []
-    @time_wait = 0.35 #seconds between new circles
     @time_wait = 0.1 #seconds between new circles
     @time_old = Time.new
     $combo = 0
