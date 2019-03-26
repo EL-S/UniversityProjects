@@ -216,15 +216,26 @@ class GameWindow < Gosu::Window
         if (ARGV.length > 0) # debug
           puts("Cell clicked on is x: " + cell[0].to_s + " y: " + cell[1].to_s)
         end
-        cell_object = @columns[cell[0]][cell[1]]
-        cell_object.vacant = true
+        @columns[cell[0]][cell[1]].vacant = true
         
       when Gosu::MsRight
         cell = mouse_over_cell(mouse_x, mouse_y)
-        @path = search(cell[0],cell[1])
+        reset_visted
+        clicked_object = @columns[cell[0]][cell[1]].vacant
+        if clicked_object == true
+          @path = search(cell[0],cell[1])
+        end
       end
   end
 
+  def reset_visted
+    for x in @columns
+      for y in x
+        y.visited = false
+        y.on_path = false
+      end
+    end
+  end
   # This will walk along the path setting the on_path for each cell
   # to true. Then draw checks this and displays them a red colour.
   def walk(path)
@@ -234,8 +245,8 @@ class GameWindow < Gosu::Window
         cell = path[count]
         if cell != nil
           @columns[cell[0]][cell[1]].on_path = true
-          count += 1
         end
+        count += 1
       end
   end
 
