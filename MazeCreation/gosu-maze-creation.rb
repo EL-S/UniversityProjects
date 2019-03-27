@@ -59,7 +59,6 @@ class GameWindow < Gosu::Window
       end
       column_index += 1
     end
-
     # now set up the neighbour links
     # You need to do this using a while loop with another
     # nested while loop inside.
@@ -67,24 +66,24 @@ class GameWindow < Gosu::Window
     for x in @columns
       ii = 0
       for y in x
-        begin
+        if ii-1 >= 0
           y.north = @columns[i][ii-1]
-        rescue
+        else
           y.north = nil
         end
-        begin
+        if i+1 < x_cell_count
           y.east = @columns[i+1][ii]
-        rescue
+        else
           y.east = nil
         end
-        begin
+        if ii+1 < y_cell_count
           y.south = @columns[i][ii+1]
-        rescue
+        else
           y.south = nil
         end
-        begin
+        if i-1 >= 0
           y.west = @columns[i-1][ii]
-        rescue
+        else
           y.west = nil
         end
         ii += 1
@@ -153,14 +152,15 @@ class GameWindow < Gosu::Window
 
       # pick one of the possible paths that is not nil (if any):
       cell_obj = @columns[cell_x][cell_y]
-      if cell_obj.north != nil
-        if cell_obj.north.vacant and !@columns[cell_x][cell_y-1].visited
-          north_path = [cell_x,cell_y-1]
-        end
-      end
+      cell_obj.visited = true
       if cell_obj.east != nil
         if cell_obj.east.vacant and !@columns[cell_x+1][cell_y].visited
           east_path = [cell_x+1,cell_y]
+        end
+      end
+      if cell_obj.north != nil
+        if cell_obj.north.vacant and !@columns[cell_x][cell_y-1].visited
+          north_path = [cell_x,cell_y-1]
         end
       end
       if cell_obj.south != nil
@@ -173,13 +173,12 @@ class GameWindow < Gosu::Window
           west_path = [cell_x-1,cell_y]
         end
       end
-
-      if (north_path != nil)
+      if (east_path != nil)
+        path = east_path
+      elsif (north_path != nil)
         path = north_path
       elsif (south_path != nil)
         path = south_path
-      elsif (east_path != nil)
-        path = east_path
       elsif (west_path != nil)
         path = west_path
       end
@@ -190,7 +189,7 @@ class GameWindow < Gosu::Window
           puts "Added x: " + cell_x.to_s + " y: " + cell_y.to_s
         end
         path_obj = @columns[path[0]][path[1]]
-        path_obj.visited = true
+        
         next_path = search(path[0],path[1])
         if next_path == [nil]
           next_path = search(cell_x,cell_y)
@@ -216,7 +215,8 @@ class GameWindow < Gosu::Window
         if (ARGV.length > 0) # debug
           puts("Cell clicked on is x: " + cell[0].to_s + " y: " + cell[1].to_s)
         end
-        @columns[cell[0]][cell[1]].vacant = true
+        @columns[cell[0]][cell[1]].vacant = !@columns[cell[0]][cell[1]].vacant
+        reset_visted
         
       when Gosu::MsRight
         cell = mouse_over_cell(mouse_x, mouse_y)
