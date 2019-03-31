@@ -19,7 +19,7 @@ class GameWindow < Gosu::Window
     @font = Gosu::Font.new(self, "Impact", 192)
   end
 
-  def update
+  def update # refactor and add a menu
     catcher_x, catcher_y = @catcher.get_pos
     for @circle in $circle_array
       @circle.fall
