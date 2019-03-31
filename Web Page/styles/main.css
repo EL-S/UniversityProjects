@@ -19,7 +19,12 @@ body {
     /*background-image: url("https://cdn.shopify.com/s/files/1/1520/4366/collections/BANNER_TypeC_spacegray.jpg?v=1518476777");*/
     /*background-image: url("https://thumbs.dreamstime.com/t/technology-banner-background-old-new-using-computer-circuits-old-machine-cogs-37036025.jpg");*/
     background-image: url("https://stingeraustralia.com.au/wp-content/uploads/2018/12/abstract-grey-tech-geometric-motion-background-video-corporate-animation-ultra-hd-4k-3840x2160_b4-2cnvd__F0000.jpg");
-    background-size: 100% 100;
+	display: flex;
+	justify-content: center;
+}
+
+#header img {
+	border-radius: 2%;
 }
 
 #navbar {
@@ -61,14 +66,14 @@ h2 {
 #left {
     position: relative;
     display: inline-block;
-    max-width: 50vh;
+    max-width: 25vw;
     padding: 2em;
 }
 
 #right {
     position: relative;
     display: inline-block;
-    max-width: 50vh;
+    max-width: 25vw;
     padding: 2em;
 }
 
@@ -79,6 +84,7 @@ h2 {
     margin: 0 auto;
     background-color: gray;
     min-height: 7vh;
+	line-height: 3.5vh;
     background-image: url("../images/footer.png");
     background-size: 100% 250%;
 }
@@ -86,6 +92,12 @@ h2 {
 #pleft {
     display: inline-block;
 	float: left;
+	margin-left: 5vh;
+}
+
+#pcenter {
+	display: inline-block;
+	margin-right: 5vh;
 	margin-left: 5vh;
 }
 
@@ -119,16 +131,18 @@ li a {
     display: inline-block;
     color: #CCC;
     text-align: center;
-    padding: 14px 16px;
+    padding: 15px 20px;
     text-decoration: none;
 }
   
 li a:hover {
     background-color: #333;
+	border-radius: 6px;
 }
   
 .activenav {
 	background-color: #555;
+	border-radius: 6px;
 }
   
 @media only screen and (max-width: 1292px) {
@@ -138,10 +152,10 @@ li a:hover {
 	}
 	
 	#left {
-    max-width: 100vh;
+		max-width: 100vw;
 	}
 
 	#right {
-		max-width: 100vh;
+		max-width: 100vw;
 	}
 }
