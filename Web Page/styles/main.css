@@ -1,0 +1,147 @@
+html{
+    min-height:100%;
+    position:relative;
+}
+
+body {
+    margin: 0px;
+    height:100%;
+    background-color: gray;
+}
+
+#header {
+    position: relative;
+    background-color: gray;
+    margin: 0 auto;
+    margin: 0px;
+    padding: 0px;
+    min-height: 15vh;
+    /*background-image: url("https://cdn.shopify.com/s/files/1/1520/4366/collections/BANNER_TypeC_spacegray.jpg?v=1518476777");*/
+    /*background-image: url("https://thumbs.dreamstime.com/t/technology-banner-background-old-new-using-computer-circuits-old-machine-cogs-37036025.jpg");*/
+    background-image: url("https://stingeraustralia.com.au/wp-content/uploads/2018/12/abstract-grey-tech-geometric-motion-background-video-corporate-animation-ultra-hd-4k-3840x2160_b4-2cnvd__F0000.jpg");
+    background-size: 100% 100;
+}
+
+#navbar {
+	position: -webkit-sticky; /* Safari */
+	position: sticky;
+	top: 0;
+	z-index : 1;
+}
+
+#content-container {
+    position: relative;
+    text-align: center;
+    background-color: gray;
+    background-image: url("../images/background_blur.jpg");
+}
+
+#content {
+    position: relative;
+    padding: 1em;
+    margin: 0 auto;
+    filter: none;
+    -webkit-filter: none;
+    background-color: whitesmoke;
+    width: 70%;
+    min-height: 70vh;
+}
+
+h1 {
+	font-size: 3em;
+	line-height: 0;
+	margin-bottom: 0;
+}
+
+h2 {
+	font-size: 2em;
+	margin-top: 0;
+}
+
+#left {
+    position: relative;
+    display: inline-block;
+    max-width: 50vh;
+    padding: 2em;
+}
+
+#right {
+    position: relative;
+    display: inline-block;
+    max-width: 50vh;
+    padding: 2em;
+}
+
+#footer {
+    position: relative;
+    text-align: center;
+    bottom: 0;
+    margin: 0 auto;
+    background-color: gray;
+    min-height: 7vh;
+    background-image: url("../images/footer.png");
+    background-size: 100% 250%;
+}
+
+#pleft {
+    display: inline-block;
+	float: left;
+	margin-left: 5vh;
+}
+
+#pright {
+    display: inline-block;
+	float: right;
+	margin-right: 5vh;
+}
+
+img {
+    margin: 0px;
+    padding: 0px;
+}
+
+ul {
+    overflow: hidden;
+    background-color: #444;
+    position: sticky;
+    top: 0px;
+    margin: 0px;
+    padding: 0px;
+    z-index : 1;
+    list-style-type: none;
+  }
+  
+li {
+    float: left;
+}
+  
+li a {
+    display: inline-block;
+    color: #CCC;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+  
+li a:hover {
+    background-color: #333;
+}
+  
+.activenav {
+	background-color: #555;
+}
+  
+@media only screen and (max-width: 1292px) {
+	ul {
+		display: flex;
+		justify-content: center;
+	}
+	
+	#left {
+    max-width: 100vh;
+	}
+
+	#right {
+		max-width: 100vh;
+	}
+}
