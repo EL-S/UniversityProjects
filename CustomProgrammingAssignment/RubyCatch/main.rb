@@ -1,6 +1,8 @@
 require 'gosu'
 require 'time'
 
+# implement a midi parser
+
 class GameWindow < Gosu::Window
   def initialize
     $width = 1920
