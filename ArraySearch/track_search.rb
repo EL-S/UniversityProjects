@@ -8,6 +8,8 @@ end
 
 $genre_names = ['Null', 'Pop', 'Classic', 'Jazz', 'Rock']
 
+# upload week 6
+
 class Album
 # NB: you will need to add tracks to the following and the initialize()
 	attr_accessor :title, :artist, :genre, :tracks
