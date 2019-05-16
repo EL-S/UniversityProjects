@@ -2,12 +2,11 @@
 # writes the number of lines then each line as a string.
 
 def write_data_to_file(aFile)
-   aFile.puts('5')
-   aFile.puts('Fred')
-   aFile.puts('Sam')
-   aFile.puts('Jill')
-   aFile.puts('Jenny')
-   aFile.puts('Zorro')
+  names = ['Fred', 'Sam', 'Jill', 'Jenny', 'Zorro']
+  aFile.puts(names.length)
+  for name in names
+    aFile.puts(name)
+  end
 end
 
 # reads in each line.
@@ -18,11 +17,9 @@ end
 def read_data_from_file(aFile)
   count = aFile.gets.to_i
   puts count.to_s
-  puts aFile.gets
-  puts aFile.gets
-  puts aFile.gets
-  puts aFile.gets
-  puts aFile.gets
+  count.times do
+    puts aFile.gets
+  end
 end
 
 # writes data to a file then reads it in and prints
