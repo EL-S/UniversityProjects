@@ -1,0 +1,31 @@
+3
+Neil Diamond
+Greatest Hits
+1
+3
+Crackling Rose
+sounds/01-Cracklin-rose.wav
+Soolaimon
+sounds/06-Soolaimon.wav
+Sweet Caroline
+sounds/20-Sweet_Caroline.wav
+Neil Diamond2
+Greatest Hits2
+1
+3
+Crackling Rose2
+sounds/01-Cracklin-rose2.wav
+Soolaimon2
+sounds/06-Soolaimon2.wav
+Sweet Caroline2
+sounds/20-Sweet_Caroline2.wav
+Neil Diamond3
+Greatest Hits3
+2
+3
+Crackling Rose3
+sounds/01-Cracklin-rose3.wav
+Soolaimon3
+sounds/06-Soolaimon3.wav
+Sweet Caroline3
+sounds/20-Sweet_Caroline3.wav
