@@ -1,6 +1,7 @@
 require 'gosu'
 
 # remake without classes (use arrays/dictionaries due to requirements)
+# explore alternatives to storing related data in classes
 
 class Map
     attr_accessor :map
