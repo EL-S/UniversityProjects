@@ -203,5 +203,5 @@ def read_map(file_location)
     return map
 end
 
-map = read_map('sample2.rbm')
+map = read_map('sample.rbm')
 print_map(map)
