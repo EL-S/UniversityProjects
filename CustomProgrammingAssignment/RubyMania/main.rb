@@ -1,6 +1,6 @@
 require 'gosu'
 
-# remake without classes (use arrays/dictionaries due to requirements)
+# Reduce Code Length for Parsing (Also move parsing code to another file)
 def print_map(map_data)
     columns = map_data['columns']
     notes_data = map_data['notes']
