@@ -1,6 +1,7 @@
 require 'gosu'
 
 # Reduce Code Length for Parsing (Also move parsing code to another file)
+# Create a tool to generate a simpler file format for the game
 def print_map(map_data)
     columns = map_data['columns']
     notes_data = map_data['notes']
