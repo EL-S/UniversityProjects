@@ -95,7 +95,7 @@ def get_key_value_from_line(line)
     return [setting_name, setting_value]
 end
 
-def process_line(data, line, flag)
+def process_line(data, line, flag) # refactor this because it is not nice, maybe have a function for each flag with an appropriate name
 	line = line.chomp
 	if line != ""
 		if flag == 1
