@@ -131,7 +131,7 @@ class MusicPlayerMain < Gosu::Window
 
 	def read_track file
 		track_name = file.gets().chomp
-		file_name = file.gets().chomp
+		file_name = file.gets().strip
 		track = Track.new(track_name, file_name)
 		return track
 	end
@@ -576,7 +576,7 @@ class MusicPlayerMain < Gosu::Window
 		for data in @playlist
 			tracks << @albums[data[1]].tracks[data[0]]
 		end
-		@album = Album.new("Various Artists", "Playlist", nil,  0, tracks)
+		@album = Album.new("Playlist", "Various Artists", nil,  0, tracks)
 		@current_track = 0
 	end
 
@@ -613,9 +613,16 @@ class MusicPlayerMain < Gosu::Window
 							if result[0] == "p" # it's for the playlist
 								result = result.split('p')[1].to_i
 								remove_from_playlist(result)
-								@song_location = @album.tracks[@current_track].location
-								@song = Gosu::Song.new(@song_location)
-								play_song()
+								if @album.tracks[@current_track] != nil
+									@song_location = @album.tracks[@current_track].location
+									@song = Gosu::Song.new(@song_location)
+									play_song()
+								else
+									@album = []
+									@stopped = true
+									@paused = false
+									@song.stop
+								end
 							else # it's for the album selection
 								@album_index = result
 								@album = @albums[@album_index]
@@ -648,6 +655,9 @@ class MusicPlayerMain < Gosu::Window
 								if @menu == 2
 									if result == "back"
 										@menu = 1
+										@stopped = true
+										@paused = false
+										@song.stop
 										create_playlist_album
 										if @playlist != []
 											@song_location = @album.tracks[@current_track].location
