@@ -2,6 +2,7 @@ require 'gosu'
 
 # rewrite the parsing to get more information
 # implement graphics
+# also include rubycatch
 
 class Map
     attr_accessor :notes, :columns, :title, :artist, :creator, :version, :audio_filename, :audio_offset, :game_mode
