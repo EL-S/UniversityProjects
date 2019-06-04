@@ -1,6 +1,6 @@
 require 'gosu'
 
-# rewrite the parsing to get more information
+# rewrite the parsing to get more information / move file parser to a secondary file
 # implement graphics
 # also include rubycatch
 # volume slider
