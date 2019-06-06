@@ -28,29 +28,20 @@ class GameWindow < Gosu::Window
   def initialize
     super WIDTH, HEIGHT, :fullscreen => true, :update_interval => 1
     self.caption = "GosuMania"
-    @note_x = 0
-    @note_y = 0
     load_maps()
-    @selected_map = @maps[4]
-    @song_src = @selected_map.source_folder + @selected_map.audio_filename
-    @song = Gosu::Song.new(@song_src)
+    initiate_song(rand(0..@maps.length-1))
     @last_frame_time = Time.now
     @hit_height = HEIGHT*0.9
     @note_height = 100
-    @wait_time = Time.now + 2 #seconds
-    @flag = true
 
     @approach_time = 400.0 # ms
-
-    @notes_all = @selected_map.notes
-    @notes = []
 
     @column_1 = false
     @column_2 = false
     @column_3 = false
     @column_4 = false
     
-    @note_index = 0
+
   end
 
   def get_next_note_group()
@@ -73,7 +64,21 @@ class GameWindow < Gosu::Window
 
   end
 
-  def start_song
+  def initiate_song(map_id) # call when a song is selected
+    
+    @selected_map = @maps[map_id]
+    @song_src = @selected_map.source_folder + @selected_map.audio_filename
+    @song = Gosu::Song.new(@song_src)
+    @wait_time = Time.now + 2 #wait 2 seconds before starting the song
+
+    @notes_all = @selected_map.notes
+    @notes = []
+    @note_index = 0
+    @flag = true
+
+  end
+
+  def update_song
 
     @song_start_time = @wait_time
 
@@ -83,6 +88,8 @@ class GameWindow < Gosu::Window
 
         @flag = false
     end
+
+    # handle song pause here and time based pause events
   end
 
   def note_fall
@@ -114,7 +121,11 @@ class GameWindow < Gosu::Window
   end
 
   def update
-    start_song
+    #condition to determine options, paused, song_select or gameplay
+
+    update_song() #move this to the song_select button event
+
+    # time between frames, used to skip frames
     @current_frame_time = Time.now
     @time_difference = @current_frame_time - @last_frame_time
     @song_time = Time.now-@song_start_time
@@ -128,9 +139,9 @@ class GameWindow < Gosu::Window
     #remove old notes from the array
     note_delete()
     
+    #set the last frame to the frame just used
     @last_frame_time = @current_frame_time
 
-    puts @notes.length
     end
 
   def draw
@@ -178,14 +189,14 @@ class GameWindow < Gosu::Window
 
   def button_down(id)
     if id == Gosu::KbEscape
-      close
+        close # pause instead
     elsif id == Gosu::KB_Q
         @column_1 = true
     elsif id == Gosu::KB_W
         @column_2 = true
-    elsif id == Gosu::KB_O
+    elsif id == Gosu::KbDelete
         @column_3 = true
-    elsif id == Gosu::KB_P
+    elsif id == Gosu::KbEnd
         @column_4 = true
     end
   end
@@ -195,9 +206,9 @@ class GameWindow < Gosu::Window
         @column_1 = false
     elsif id == Gosu::KB_W
         @column_2 = false
-    elsif id == Gosu::KB_O
+    elsif id == Gosu::KbDelete
         @column_3 = false
-    elsif id == Gosu::KB_P
+    elsif id == Gosu::KbEnd
         @column_4 = false
     elsif id == Gosu::KB_F3
         @approach_time += 100
