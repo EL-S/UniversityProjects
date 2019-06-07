@@ -36,12 +36,15 @@ class GameWindow < Gosu::Window
 
     @approach_time = 400.0 # ms
 
+    @volume = 100
+
+    #change this to a dictionary for ease of rebinding
     @column_1 = false
     @column_2 = false
     @column_3 = false
     @column_4 = false
     
-
+    @draw_volume_time = 0
   end
 
   def get_next_note_group()
@@ -61,15 +64,18 @@ class GameWindow < Gosu::Window
 
         @note_index += 1
     end
-
   end
 
   def initiate_song(map_id) # call when a song is selected
     
     @selected_map = @maps[map_id]
+
+    @selected_map.print_info
+
     @song_src = @selected_map.source_folder + @selected_map.audio_filename
     @song = Gosu::Song.new(@song_src)
-    @wait_time = Time.now + 2 #wait 2 seconds before starting the song
+    @wait_time = 2 #wait 2 seconds before starting the song
+    @song_start_time = Time.now + @wait_time
 
     @notes_all = @selected_map.notes
     @notes = []
@@ -80,16 +86,32 @@ class GameWindow < Gosu::Window
 
   def update_song
 
-    @song_start_time = @wait_time
-
-    if Time.now > @wait_time and @flag == true
+    if Time.now > @song_start_time and @flag == true
 
         @song.play
+        @song.volume = (@volume/100.to_f)
 
         @flag = false
     end
 
+    if get_song_status == "playing" or get_song_status == "song_over" # song_over is important as the song might require notes fall before it starts
+        @song_time = Time.now-@song_start_time
+    end
     # handle song pause here and time based pause events
+  end
+
+  def get_song_status()
+    @song_object = Gosu::Song.current_song
+    if @song_object == nil
+        #song stopped or over or hasn't started yet
+        return "song_over"
+    else
+        if @song_object.playing?
+            return "playing"
+        else
+            return "paused"
+        end
+    end
   end
 
   def note_fall
@@ -128,7 +150,7 @@ class GameWindow < Gosu::Window
     # time between frames, used to skip frames
     @current_frame_time = Time.now
     @time_difference = @current_frame_time - @last_frame_time
-    @song_time = Time.now-@song_start_time
+    
     
     #load the next chunk of visible notes into the notes array
     get_next_note_group()
@@ -177,6 +199,27 @@ class GameWindow < Gosu::Window
     end
 
     Gosu.draw_rect(@columns_offset, @hit_height, @columns_width, 1, Gosu::Color::RED)
+
+    if @draw_volume_time != 0
+        if Time.now < @draw_volume_time
+            draw_volume_level()
+        end
+    end
+  end
+
+  def draw_volume_level()
+    volume = @volume
+    width = 20
+    height = 210
+    start_x = WIDTH-width
+    start_y = (HEIGHT-height)/2
+    spacing = 5
+    offset = 5
+    volume_scale = (height/100)
+    starting_height = start_y+spacing+((100*volume_scale)-volume*volume_scale)
+    volume_height = height-(spacing*2)-((100*volume_scale)-volume*volume_scale)
+    Gosu.draw_rect(start_x-offset, start_y, width, height, Gosu::Color::WHITE, 1, mode=:default)
+    Gosu.draw_rect(start_x+spacing-offset, starting_height, width-(spacing*2), volume_height, Gosu::Color::BLACK, 1, mode=:default)
   end
 
   def needs_redraw? # if the fps is below  60, skip the frame
@@ -189,7 +232,19 @@ class GameWindow < Gosu::Window
 
   def button_down(id)
     if id == Gosu::KbEscape
-        close # pause instead
+        status = get_song_status()
+        if status == "playing"
+            @time_paused_start = Time.now
+            @song.pause
+        elsif status == "paused"
+            @time_paused_end = Time.now
+            @time_paused = @time_paused_end - @time_paused_start
+            @song_start_time += @time_paused # so the notes are in the correct time position
+            @song.play
+            @song.volume = (@volume/100.to_f)
+        else
+            close
+        end
     elsif id == Gosu::KB_Q
         @column_1 = true
     elsif id == Gosu::KB_W
@@ -198,6 +253,24 @@ class GameWindow < Gosu::Window
         @column_3 = true
     elsif id == Gosu::KbEnd
         @column_4 = true
+    elsif id == 259
+        if @volume < 100
+            @volume += 1
+        end
+        # Volume Up
+        if @song != nil
+            @song.volume = (@volume/100.to_f)
+        end
+        @draw_volume_time = Time.now + 1
+    elsif id == 260
+        if @volume > 0
+            @volume -= 1
+        end
+        # Volume Down
+        if @song != nil
+            @song.volume = (@volume/100.to_f)
+        end
+        @draw_volume_time = Time.now + 1
     end
   end
 
@@ -225,10 +298,10 @@ class GameWindow < Gosu::Window
     
     @maps = read_all_maps()
 
-    for map in @maps
-        map.print_info
-        puts("-"*100)
-    end
+    #for map in @maps
+    #    map.print_info
+    #    puts("-"*100)
+    #end
 
   end
 end
