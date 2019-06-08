@@ -207,7 +207,7 @@ class GameWindow < Gosu::Window
     end
   end
 
-  def draw_volume_level()
+  def draw_volume_level() #refactor
     volume = @volume
     width = 20
     height = 210
