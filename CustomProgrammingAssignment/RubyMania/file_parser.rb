@@ -226,9 +226,9 @@ def read_map(file_location)
 	if data['notes_data'] != []
 		end_note = data['notes_data'][-1]
 		if end_note[0] == "hold"
-			end_event = end_note[2] + end_note[3] # start and end time
+			end_event = end_note[3].to_i # end time of the extended note
 		else
-			end_event = end_note[2] # only start time
+			end_event = end_note[2].to_i # only start time
 		end
 
 		data['end_event'] = end_event
