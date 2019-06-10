@@ -1,9 +1,9 @@
 # rewrite the parsing to get more information / move file parser to a secondary file
 
 class Map
-    attr_accessor :notes, :columns, :title, :artist, :creator, :version, :audio_filename, :audio_offset, :end_event, :game_mode, :source_folder
+    attr_accessor :notes, :columns, :title, :artist, :creator, :version, :audio_filename, :audio_offset, :end_event, :game_mode, :source_folder, :beatmap_set_id, :background_image
 
-    def initialize(notes, columns, title, artist, creator, version, audio_filename, audio_offset, end_event, game_mode, source_folder)
+    def initialize(notes, columns, title, artist, creator, version, audio_filename, audio_offset, end_event, game_mode, source_folder, beatmap_set_id, background_image)
         @columns = columns
 		@notes = notes
 		@title = title
@@ -15,6 +15,8 @@ class Map
 		@end_event = end_event
 		@game_mode = game_mode
 		@source_folder = source_folder
+		@beatmap_set_id = beatmap_set_id
+		@background_image = background_image
     end
 
 	def print_info()
@@ -22,9 +24,11 @@ class Map
 		puts("Title: #{@title}")
 		puts("Creator: #{@creator}")
 		puts("Version: #{@version}")
+		puts("BeatmapSetID: #{@beatmap_set_id}")
 		puts("Source Folder: #{@source_folder}")
 		puts("Audio Filename: #{@audio_filename}")
 		puts("Audio Offset: #{@audio_offset}ms")
+		puts("Background Image: #{@background_image}")
 		puts("Map Length: #{@end_event}ms")
 		puts("Mode: #{@game_mode}")
 		puts("Columns: #{@columns}")
@@ -73,6 +77,8 @@ def create_map(data)
 	audio_offset = data['audio_offset']
 	end_event = data['end_event']
 	source_folder = data['source_folder']
+	beatmap_set_id = data['beatmap_set_id']
+	background_image = data['background_image']
 	
 	notes = []
 	
@@ -91,7 +97,11 @@ def create_map(data)
 		id += 1
     end
 
-    map = Map.new(notes, columns, title, artist, creator, version, audio_filename, audio_offset, end_event, game_mode, source_folder)
+	if background_image != nil
+		background_image = source_folder + background_image
+	end
+
+    map = Map.new(notes, columns, title, artist, creator, version, audio_filename, audio_offset, end_event, game_mode, source_folder, beatmap_set_id, background_image)
 
     return map
 end
@@ -136,6 +146,8 @@ def process_line(data, line, flag) # refactor this because it is not nice, maybe
 				data['creator'] = setting_value
 			elsif setting_name == "Version"
 				data['version'] = setting_value
+			elsif setting_name == "BeatmapSetID"
+				data['beatmap_set_id'] = setting_value
 			end
 		elsif flag == 4  # line should be about difficulty settings
 			key_value = get_key_value_from_line(line)
@@ -148,6 +160,9 @@ def process_line(data, line, flag) # refactor this because it is not nice, maybe
 				data['column_width'] = (512 / data['columns']).floor # recalculate column width
 			end
 		elsif flag == 5
+			if line.start_with?('0,0,"') # probably the background image
+				data['background_image'] = line.split('"')[1]
+			end
 		elsif flag == 6
 		elsif flag == 7
 		elsif flag == 8  # line should be note data
@@ -212,7 +227,9 @@ def read_map(file_location)
 			"audio_filename" => "",
 			"audio_offset" => "",
 			"source_folder" => source_folder,
-			"end_event" => 0
+			"end_event" => 0,
+			"BeatmapSetID" => 0,
+			"background_image" => nil
 		}
 	
     flag = 0
@@ -222,6 +239,8 @@ def read_map(file_location)
 		data = data_from_line[0]
 		flag = data_from_line[1]
     end
+
+	file.close
 
 	if data['notes_data'] != []
 		end_note = data['notes_data'][-1]
