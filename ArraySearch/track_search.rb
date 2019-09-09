@@ -1,6 +1,6 @@
 require './input_functions'
 
-# Task 6.2 T - use the code from 6.2 T to help with this
+# Task 6.2 T - use the code from 6.2 T to help with this fixed
 
 module Genre
   POP, CLASSIC, JAZZ, ROCK = *1..4
